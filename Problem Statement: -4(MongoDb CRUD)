@@ -1,0 +1,83 @@
+1. Create Collections
+
+use collegeDB; 
+db.createCollection("Teachers")
+db.createCollection("Students")
+
+2.Insert Sample Documents
+
+Insert Teachers
+
+db.Teachers.insertMany([
+  { Tname: "Praveen", dno: 1, dname: "Computer", experience: 5, salary: 15000, date_of_joining: "2018-06-15" },
+  { Tname: "Sneha", dno: 2, dname: "IT", experience: 4, salary: 12000, date_of_joining: "2019-07-10" },
+  { Tname: "Ravi", dno: 3, dname: "E&TC", experience: 6, salary: 18000, date_of_joining: "2017-04-21" },
+  { Tname: "Amit", dno: 4, dname: "Mechanical", experience: 8, salary: 9000, date_of_joining: "2016-08-03" },
+  { Tname: "Priya", dno: 5, dname: "Computer", experience: 3, salary: 10000, date_of_joining: "2020-01-12" }
+])
+
+Insert Students
+
+db.Students.insertMany([
+  { Sname: "Rahul", roll_no: 1, class: "FE" },
+  { Sname: "XYZ", roll_no: 2, class: "SE" },
+  { Sname: "Sneha", roll_no: 3, class: "TE" },
+  { Sname: "Amit", roll_no: 4, class: "BE" }
+])
+
+
+3️. CRUD QUERIES
+
+1. Find the information about all teachers alphabetically
+
+db.Teachers.find().sort({ Tname: 1 })
+
+2. Find the information about all teachers of the Computer department
+
+db.Teachers.find({ dname: "Computer" })
+
+3. Find the information about all teachers of Computer, IT, and E&TC department
+
+db.Teachers.find({ dname: { $in: ["Computer", "IT", "E&TC"] } })
+
+4. Find the information about all teachers of Computer, IT, and E&TC department having salary >= 10000
+
+db.Teachers.find({
+  dname: { $in: ["Computer", "IT", "E&TC"] },
+  salary: { $gte: 10000 }
+})
+
+
+6. Find the student information having roll_no = 2 or Sname = 'XYZ'
+
+db.Students.find({
+  $or: [{ roll_no: 2 }, { Sname: "XYZ" }]
+})
+
+7. Update the experience of teacher Praveen to 10 years
+
+db.Teachers.updateOne(
+  { Tname: "Praveen" },
+  { $set: { experience: 10, dname: "Computer", salary: 15000, dno: 1, date_of_joining: "2018-06-15" } },
+  { upsert: true }
+)
+
+9. Update the department of all teachers working in IT department to COMP
+
+db.Teachers.updateMany(
+  { dname: "IT" },
+  { $set: { dname: "COMP" } }
+)
+
+10. Find the teacher’s name and their experience from Teachers collection
+
+db.Teachers.find({}, { _id: 0, Tname: 1, experience: 1 })
+
+11. Delete all the documents from Teachers collection having IT dept
+
+db.Teachers.deleteMany({ dname: "IT" })
+
+12. Display with pretty() method the first 3 documents in Teachers collection in ascending order
+
+db.Teachers.find().sort({ Tname: 1 }).limit(3).pretty()
+
