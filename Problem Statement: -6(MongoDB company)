@@ -1,0 +1,46 @@
+1. Create or Switch to Database
+
+use retailDB
+
+2.Create and Insert Sample Data
+db.customer.insertMany([
+  { cid: 101, cname: "Ravi",   amount: 2500, product_name: "Mobile" },
+  { cid: 102, cname: "Sneha",  amount: 1500, product_name: "Headphones" },
+  { cid: 101, cname: "Ravi",   amount: 3000, product_name: "Laptop" },
+  { cid: 103, cname: "Amit",   amount: 2000, product_name: "Keyboard" },
+  { cid: 102, cname: "Sneha",  amount: 500,  product_name: "Mouse" },
+  { cid: 101, cname: "Ravi",   amount: 1000, product_name: "Charger" }
+])
+
+Check data:
+db.customer.find().pretty()
+
+3. Define the Map Function
+
+var mapFunction = function() {
+  emit(this.cname, this.amount);
+};
+
+4. Define the Reduce Function
+
+var reduceFunction = function(key, values) {
+  return Array.sum(values);
+};
+
+5. Execute MapReduce
+
+db.customer.mapReduce(
+  mapFunction,
+  reduceFunction,
+  {
+    out: "customer_total_spent"
+  }
+) 
+
+6.View the Summarized Report
+
+db.customer_total_spent.find().pretty()
+
+
+
+
