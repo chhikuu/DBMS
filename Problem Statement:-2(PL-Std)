@@ -65,5 +65,8 @@ INSERT INTO Stud_Marks VALUES
 4. Call the Procedure
 
 CALL proc_Grade();
+5. result
+
+SELECT * FROM Result;
 
 
