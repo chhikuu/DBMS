@@ -1,0 +1,45 @@
+
+Step 1: Create the Base Table
+
+CREATE TABLE Student (
+    Student_ID NUMBER PRIMARY KEY,
+    Student_Name VARCHAR2(50),
+    Class VARCHAR2(10),
+    Address VARCHAR2(100),
+    Subject_Name VARCHAR2(30),
+    Grades CHAR(2),
+    Attendance NUMBER(5,2),
+    Enrolment_Details DATE
+);
+
+Step 2: Create a Sequence for Student_ID
+
+CREATE SEQUENCE stu_id_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+Step 3: Insert Sample Data Using the Sequence
+
+INSERT INTO Student VALUES (stu_id_seq.NEXTVAL, 'Ravi', 'FY', 'Pune', 'DBMS', 'A', 92.5, TO_DATE('2024-07-01','YYYY-MM-DD'));
+INSERT INTO Student VALUES (stu_id_seq.NEXTVAL, 'Sneha', 'SY', 'Mumbai', 'AI', 'B', 85.0, TO_DATE('2023-08-15','YYYY-MM-DD'));
+INSERT INTO Student VALUES (stu_id_seq.NEXTVAL, 'Amit', 'TY', 'Nashik', 'ML', 'A', 95.5, TO_DATE('2022-07-20','YYYY-MM-DD'));
+INSERT INTO Student VALUES (stu_id_seq.NEXTVAL, 'Priya', 'FY', 'Pune', 'Python', 'C', 70.0, TO_DATE('2024-07-01','YYYY-MM-DD'));
+INSERT INTO Student VALUES (stu_id_seq.NEXTVAL, 'Rohan', 'SY', 'Nagpur', 'DBMS', 'B', 88.0, TO_DATE('2023-08-15','YYYY-MM-DD'));
+COMMIT;
+
+Step 4: Create a View for Performance and Attendance Summary
+
+CREATE OR REPLACE VIEW student_summary AS
+SELECT 
+    Student_Name,
+    Class,
+    Subject_Name,
+    Grades,
+    Attendance
+FROM Student;
+
+To View the Data:
+
+SELECT * FROM student_summary;
